@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GAME</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="Style.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+</head>
+
+<body background="img/bb.jpg">
+
+  <div class="PlayerVSmonster  container" id="PlayerVSmonster">
+    <center>
+      <h1>
+        <font color="white">PLAYER VS MONSTER</font>
+      </h1>
+      <button @click="Start">
+        <h2>Start</h2>
+      </button>
+      <h1>
+        <font color="white">SCORE</font>: {{score}}
+      </h1>
+    </center>
+    <center>
+      <section>
+        <div class="Player ">
+
+          <div class="col-6">
+            <h1>
+              <font color="white">PLAYER</font>
+            </h1>
+            <button><img src="img/ironman.png" alt="" :width="player.hp" :height="player.hp">{{player.hp}}</button><br>
+            <h1>
+              <font color="white">HP : {{player.hp}}</font>
+            </h1>
+            <h1>
+              <font color="white">Attack : {{player.damageAtk}}</font>
+            </h1>
+            <h1>
+              <font color="white">SpecialAttack : {{player.damageScAtk}}</font>
+            </h1>
+            <button @click="Attack">Attack</button>
+          </div>
+
+        </div>
+      </section>
+      <aside>
+        <div class="monster ">
+
+          <div class="col-6">
+            <h1>
+              <font color="white"> MONSTER</font>
+            </h1>
+            <button><img src="img/Thanos.png" alt="" :width="Monster.hp" :height="Monster.hp">{{Monster.hp}}</button>
+            <br>
+            <h1>
+              <font color="white">HP : {{Monster.hp}}</font>
+            </h1>
+            <h1>
+              <font color="white">Attack : {{Monster.damageAtk}}</font>
+            </h1>
+            <h1>
+              <font color="white">SpecialAttack : {{Monster.damageScAtk}}</font>
+            </h1>
+            <button @click="SpecialAttack ">Special Attack</button>
+          </div>
+        </div>
+
+      </aside>
+    </center>
+  </div>
+  </div>
+</body>
+
+</html>
+<script>
+
+  var PlayerVSmonster = new Vue({
+    el: '#PlayerVSmonster',
+    data: {
+      score: '',
+      player: {
+        hp: 0,
+        minatk: 3,
+        maxatk: 10,
+        minSpatk: 10,
+        maxSpatk: 20,
+        damageAtk: 0,
+        damageScAtk: 0
+      },
+      Monster: {
+        hp: 0,
+        minatk: 5,
+        maxatk: 15,
+        minSpatk: 5,
+        maxSpatk: 15,
+        damageAtk: 0,
+        damageScAtk: 0
+      }
+    },
+    methods: {
+      Attack: function () {
+        this.player.damageAtk = Math.max(Math.floor(Math.random() * this.player.maxatk) + 1, this.player.minatk);
+        this.Monster.damageAtk = Math.max(Math.floor(Math.random() * this.Monster.maxatk) + 1, this.Monster.minatk);
+        this.Monster.hp = this.Monster.hp - this.player.damageAtk;
+        this.player.hp = this.player.hp - this.Monster.damageAtk;
+        if (this.Monster.hp > 0 && this.player.hp <= 0) {
+          this.player.hp = 0;
+
+          this.score = 'MONSTER WIN';
+        }
+        if (this.player.hp > 0 && this.Monster.hp <= 0) {
+          this.Monster.hp = 0;
+
+          this.score = 'YOU WIN';
+        }
+        else if (this.player.hp <= 0 && this.Monster.hp <= 0) {
+          this.Monster.hp = 0;
+          this.player.hp = 0;
+          this.score = 'DAW';
+        }
+      },
+      score: function () {
+      },
+      SpecialAttack: function () {
+        this.player.damageScAtk = Math.max(Math.floor(Math.random() * this.player.maxSpatk) + 1, this.player.minSpatk);
+        this.Monster.damageScAtk = Math.max(Math.floor(Math.random() * this.Monster.maxSpatk) + 1, this.Monster.minSpatk);
+        this.Monster.hp = this.Monster.hp - this.player.damageScAtk;
+        this.player.hp = this.player.hp - this.Monster.damageScAtk;
+        if (this.Monster.hp > 0 && this.player.hp <= 0) {
+          this.player.hp = 0;
+
+          this.score = 'MONSTER WIN';
+        }
+        if (this.player.hp > 0 && this.Monster.hp <= 0) {
+          this.Monster.hp = 0;
+
+          this.score = 'YOU WIN';
+        }
+        else if (this.player.hp <= 0 && this.Monster.hp <= 0) {
+          this.Monster.hp = 0;
+          this.player.hp = 0;
+          this.score = 'DAW';
+        }
+      },
+      Start: function () {
+        this.player.hp = 100;
+        this.Monster.hp = 110;
+        this.player.damageAtk = 0;
+        this.Monster.damageAtk = 0;
+        this.player.damageScAtk = 0;
+        this.Monster.damageScAtk = 0;
+      },
+    }
+  })
+
+</script>
